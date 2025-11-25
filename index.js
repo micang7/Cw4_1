@@ -30,7 +30,22 @@ app.get("/math/rectangle/:width/:height", (req, res) => {
 });
 
 
-//TODO3
+app.get("/math/power/:base/:exponent", (req, res) => {
+  const b = parseFloat(req.params.base);
+  const e = parseFloat(req.params.exponent);
+  const root = req.query.root;
+
+  if (isNaN(b) || isNaN(e)) {
+    res.status(400).json({ error: "Invalid base or exponent" });
+  }
+
+  const result = {
+    result: Math.pow(b, e).toFixed(2),
+  };
+
+  if (root === "true") result.root = Math.sqrt(b).toFixed(2);
+  res.json(result);
+});
 
 
 const PORT = process.env.PORT || 3000;
