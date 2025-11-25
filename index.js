@@ -5,7 +5,14 @@ const app = express();
 
 // define endpoint for exercise 1 here
 app.get('/math/circle/:r', (req, res) => {
-//TODO1  
+  const r = parseFloat(req.params.r);
+  if (isNaN(r) || r <= 0) {
+    res.status(400).json({ error: "Invalid radius" });
+  }
+  const result = {
+    area: (Math.PI * r * r).toFixed(2),
+    circumference: (2 * Math.PI * r).toFixed(2),
+  };
   res.json(result);
 });
 
