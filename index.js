@@ -16,7 +16,18 @@ app.get('/math/circle/:r', (req, res) => {
   res.json(result);
 });
 
-//TODO2
+app.get("/math/rectangle/:width/:height", (req, res) => {
+  const w = parseFloat(req.params.width);
+  const h = parseFloat(req.params.height);
+  if (isNaN(w) || w <= 0 || isNaN(h) || h <= 0) {
+    res.status(400).json({ error: "Invalid width or height" });
+  }
+  const result = {
+    area: (w * h).toFixed(2),
+    perimeter: (2 * (w + h)).toFixed(2),
+  };
+  res.json(result);
+});
 
 
 //TODO3
