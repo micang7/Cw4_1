@@ -1,5 +1,6 @@
 "use strict";
 
+const { match } = require("assert");
 const express = require("express");
 const app = express();
 
@@ -88,6 +89,29 @@ app.get("/math/gcdlcm/:a/:b", (req, res) => {
   res.json({
     gcd,
     icm,
+  });
+});
+
+app.get("/math/average", (req, res) => {
+  const nums = req.query.nums.split(",").map((num) => {
+    const parsedNum = parseFloat(num);
+    if (isNaN(parsedNum)) {
+      res.status(400).json({ error: "Invalid input" });
+    }
+    return parsedNum;
+  });
+
+  res.json({
+    arytmetyczna: (
+      nums.reduce((sum, num) => sum + num, 0) / nums.length
+    ).toFixed(2),
+    geometryczna: Math.pow(
+      nums.reduce((pro, num) => pro * num, 1),
+      1 / nums.length,
+    ).toFixed(2),
+    harmoniczna: (
+      nums.length / nums.reduce((sum, num) => sum + 1 / num, 0)
+    ).toFixed(2),
   });
 });
 
