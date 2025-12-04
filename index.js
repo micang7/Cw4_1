@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
-const express = require('express');
+const express = require("express");
 const app = express();
 
 // define endpoint for exercise 1 here
-app.get('/math/circle/:r', (req, res) => {
+app.get("/math/circle/:r", (req, res) => {
   const r = parseFloat(req.params.r);
   if (isNaN(r) || r <= 0) {
     res.status(400).json({ error: "Invalid radius" });
@@ -29,7 +29,6 @@ app.get("/math/rectangle/:width/:height", (req, res) => {
   res.json(result);
 });
 
-
 app.get("/math/power/:base/:exponent", (req, res) => {
   const b = parseFloat(req.params.base);
   const e = parseFloat(req.params.exponent);
@@ -47,6 +46,28 @@ app.get("/math/power/:base/:exponent", (req, res) => {
   res.json(result);
 });
 
+function isPrime(n) {
+  if (n <= 1) return false;
+  if (n <= 3) return true;
+  if (n % 2 === 0) return false;
+  for (let i = 3; i * i <= n; i += 2) {
+    if (n % i === 0) return false;
+  }
+  return true;
+}
+
+app.get("/math/isprime/:n", (req, res) => {
+  const n = parseInt(req.params.n);
+
+  if (isNaN(n)) {
+    res.status(400).json({ error: "Invalid input" });
+  }
+
+  res.json({
+    number: n,
+    isPrime: isPrime(n),
+  });
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
